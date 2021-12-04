@@ -8,7 +8,7 @@ import pytest
 this_dir = pathlib.Path(__file__).parent.resolve()
 
 
-def solve(_input: str) -> tuple[int, int]:
+def solve(_input: str) -> int:
     input_numbers = [e.split(" ") for e in _input.splitlines()]
 
     depth = 0
@@ -24,7 +24,7 @@ def solve(_input: str) -> tuple[int, int]:
         else:
             raise Exception(f"what is {command}")
 
-    return position, depth
+    return position * depth
 
 
 def main() -> int:
@@ -34,14 +34,14 @@ def main() -> int:
     args = parser.parse_args()
 
     with open(args.data_file) as f:
-        position, depth = solve(f.read())
-        print(position * depth)
+        print(solve(f.read()))
 
     return 0
 
 
 @pytest.mark.parametrize(("input_file", "expected_result"), [
-    (this_dir / "sample_input.txt", (15, 10)),
+    (this_dir / "sample_input.txt", 150),
+    (this_dir / "input.txt", 1693300),
 ])
 def test_sample_data(
         input_file: pathlib.Path,

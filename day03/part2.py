@@ -72,6 +72,7 @@ def main() -> int:
 
 @pytest.mark.parametrize(("input_file", "expected_result"), [
     (this_dir / "sample_input.txt", 230),
+    (this_dir / "input.txt", 6940518),
 ])
 def test_sample_data(input_file: pathlib.Path, expected_result: int) -> None:
     assert solve(input_file.read_text()) == expected_result
