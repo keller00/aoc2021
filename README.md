@@ -10,5 +10,5 @@ In some cases when I feel like I want to take a different approach later I will 
 
 1. `cp -r day00 dayxx` start by copying the folder `day00`, it serves as a template for new days
 2. `cd dayxx`
-3. `cp code.py part1.py` once the solution is finalized for part 1, save it as `part1.py` and keep working on `code.py`
-4. `mv code.py part2.py` once the solution is finished for part 2
+3. `cp solution.py part1.py` once the solution is finalized for part 1, save it as `part1.py` and keep working on `solution.py`
+4. `mv solution.py part2.py` once the solution is finished for part 2
