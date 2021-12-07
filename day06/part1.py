@@ -40,7 +40,6 @@ def solve(_input: str, days: int = 80) -> int:
     for d in range(days):
         for fish in fishes[:]:
             fish.tick(fishes)
-        # print(f"After {d+1} day: {[int(f) for f in fishes]}")
 
     return len(fishes)
 
