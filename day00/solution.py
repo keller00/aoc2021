@@ -9,10 +9,10 @@ this_dir = pathlib.Path(__file__).parent.resolve()
 
 
 def solve(_input: str) -> int:
-    input_numbers = [int(e) for e in _input.splitlines()]
+    input_lines = _input.splitlines()
     solution = 0
 
-    for n in input_numbers:
+    for n in input_lines:
         pass
 
     return solution
