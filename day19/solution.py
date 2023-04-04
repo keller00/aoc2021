@@ -8,7 +8,7 @@ import pytest
 
 this_dir = pathlib.Path(__file__).parent.resolve()
 
-SCANNER_LINE_RE = re.compile("--- scanner (\d+) ---")
+SCANNER_LINE_RE = re.compile(r"--- scanner (\d+) ---")
 
 
 def solve(_input: str) -> int:
@@ -28,10 +28,6 @@ def solve(_input: str) -> int:
         if current_scanner is None:
             raise Exception(f"this should never have happened line {i} '{n}'")
         detected_beacons[current_scanner].append(tuple(n.split(",")))
-
-
-
-
 
     return solution
 

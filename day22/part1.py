@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import argparse
 import pathlib
-from typing import NamedTuple, Generator
+from typing import Generator
+from typing import NamedTuple
 
 import pytest
 
@@ -53,7 +54,8 @@ def solve(_input: str) -> int:
     steps: list[Cube] = []
     for n in input_lines:
         on, rest = n.split(" ", 1)
-        current_cube = Cube(on.lower() == "on", *map(lambda e: Range(*sorted(map(int, e[2:].split("..")))), rest.split(",", 2)))
+        current_cube = Cube(on.lower() == "on", *map(lambda e: Range(*
+                            sorted(map(int, e[2:].split("..")))), rest.split(",", 2)))
         # TODO: this isn't correct -60, 60 would be disregarded
         # if (
         #     abs(current_cube.x.to) > 50 and abs(current_cube.x.from_) > 50
