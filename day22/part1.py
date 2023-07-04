@@ -27,7 +27,7 @@ class Cube(NamedTuple):
                 for z in range(max(self.z.from_, -50), min(self.z.to + 1, 51)):
                     yield Coordinate(x, y, z)
 
-    def __contains__(self, item: Cube | Coordinate) -> bool:
+    def __contains__(self, item: object) -> bool:
         if isinstance(item, Cube):
             return all(c in self for c in item)  # Expensive
         elif isinstance(item, Coordinate):
@@ -36,6 +36,8 @@ class Cube(NamedTuple):
                 and self.y.from_ <= item.y <= self.y.to
                 and self.z.from_ <= item.z <= self.z.to
             )
+        else:
+            raise TypeError("unsupported type")
 
     def overlaps(self, item: Cube) -> bool:
         return any(c in self for c in item)
@@ -49,24 +51,37 @@ class Coordinate(NamedTuple):
 
 def solve(_input: str) -> int:
     input_lines = _input.splitlines()
-    solution = 0
+    # solution = 0
 
     steps: list[Cube] = []
     for n in input_lines:
         on, rest = n.split(" ", 1)
-        current_cube = Cube(on.lower() == "on", *map(lambda e: Range(*
-                            sorted(map(int, e[2:].split("..")))), rest.split(",", 2)))
+        current_cube = Cube(
+            on.lower() == "on",
+            *map(
+                lambda e: Range(*sorted(map(int, e[2:].split("..")))),
+                rest.split(",", 2),
+            ),
+        )
         # TODO: this isn't correct -60, 60 would be disregarded
         # if (
-        #     abs(current_cube.x.to) > 50 and abs(current_cube.x.from_) > 50
-        #     and abs(current_cube.y.to) > 50 and abs(current_cube.y.from_) > 50
-        #     and abs(current_cube.z.to) > 50 and abs(current_cube.z.from_) > 50
+        #     (
+        #         abs(current_cube.x.to) > 50
+        #         and abs(current_cube.x.from_) > 50
+        #     ) and (
+        #         abs(current_cube.y.to) > 50
+        #         and abs(current_cube.y.from_) > 50
+        #     ) and (
+        #         abs(current_cube.z.to) > 50
+        #         and abs(current_cube.z.from_) > 50
+        #     )
         # ):
         #     continue
         steps.append(current_cube)
     on_cubes: set[Coordinate] = set()
     for s in steps:
-        for c in s:
+        c: Coordinate
+        for c in iter(s):
             if (
                 abs(c.x) > 50
                 or abs(c.y) > 50

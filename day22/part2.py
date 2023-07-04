@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import functools
 import pathlib
 from typing import Generator
 from typing import NamedTuple
@@ -28,15 +27,26 @@ class Cube(NamedTuple):
                 for z in range(self.z.from_, self.z.to + 1):
                     yield Coordinate(x, y, z)
 
-    def __contains__(self, item: Cube | Coordinate) -> bool:
+    def corners(self) -> Generator[Coordinate, None, None]:
+        for x in (self.x.from_, self.x.to):
+            for y in (self.y.from_, self.y.to):
+                for z in (self.z.from_, self.z.to):
+                    yield Coordinate(x, y, z)
+
+    def __contains__(self, item: object) -> bool:
         if isinstance(item, Cube):
-            return all(c in self for c in item)  # Expensive
+            for c in item.corners():
+                if c not in self:
+                    return False
+            return True
         elif isinstance(item, Coordinate):
             return (
                 self.x.from_ <= item.x <= self.x.to
                 and self.y.from_ <= item.y <= self.y.to
                 and self.z.from_ <= item.z <= self.z.to
             )
+        else:
+            raise TypeError("unsupported type")
 
     # def overlaps(self, item: Cube) -> int:
     #     return any(c in self for c in item)
@@ -57,18 +67,25 @@ class Coordinate(NamedTuple):
 
 def solve(_input: str) -> int:
     input_lines = _input.splitlines()
-    solution = 0
+    # solution = 0
 
     steps: list[Cube] = []
     for n in input_lines:
         on, rest = n.split(" ", 1)
-        current_cube = Cube(on.lower() == "on", *map(lambda e: Range(*
-                            sorted(map(int, e[2:].split("..")))), rest.split(",", 2)))
+        current_cube = Cube(
+            on.lower() == "on",
+            *map(
+                lambda e: Range(
+                    *sorted(map(int, e[2:].split("..")))
+                ),
+                rest.split(",", 2)
+            )
+        )
         steps.append(current_cube)
     seen_cubes: set[Coordinate] = set()
     on_cubes = 0
     for s in reversed(steps):
-        for c in s:
+        for c in iter(s):
             if c not in seen_cubes:
                 seen_cubes.add(c)
                 if s.on:

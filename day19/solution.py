@@ -9,6 +9,7 @@ import pytest
 this_dir = pathlib.Path(__file__).parent.resolve()
 
 SCANNER_LINE_RE = re.compile(r"--- scanner (\d+) ---")
+BEACON_LINE_RE = re.compile(r"(-?\d+).(-?\d+).(-?\d+)")
 
 
 def solve(_input: str) -> int:
@@ -27,7 +28,17 @@ def solve(_input: str) -> int:
             continue
         if current_scanner is None:
             raise Exception(f"this should never have happened line {i} '{n}'")
-        detected_beacons[current_scanner].append(tuple(n.split(",")))
+        beacon_nums = BEACON_LINE_RE.fullmatch(n)
+        if beacon_nums is None:
+            raise Exception(f"couldn't find beacon coordinates in '{n}'?")
+        beacon_coords = (
+            int(beacon_nums.group(1)),
+            int(beacon_nums.group(2)),
+            int(beacon_nums.group(3)),
+        )
+        detected_beacons[current_scanner].append(
+            beacon_coords
+        )
 
     return solution
 
@@ -44,7 +55,7 @@ def main() -> int:
     return 0
 
 
-@pytest.mark.parametrize(("input_file", "expected_result"), [
+@ pytest.mark.parametrize(("input_file", "expected_result"), [
     (this_dir / "sample_input.txt", 79),
     # (this_dir / "input.txt", solution),
 ])
