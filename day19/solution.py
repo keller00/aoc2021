@@ -55,7 +55,7 @@ def main() -> int:
     return 0
 
 
-@ pytest.mark.parametrize(("input_file", "expected_result"), [
+@pytest.mark.parametrize(("input_file", "expected_result"), [
     (this_dir / "sample_input.txt", 79),
     # (this_dir / "input.txt", solution),
 ])
