@@ -21,7 +21,7 @@ class Cube(NamedTuple):
     y: Range
     z: Range
 
-    def __iter__(self) -> Generator[Coordinate, None, None]:
+    def iter(self) -> Generator[Coordinate, None, None]:
         for x in range(max(self.x.from_, -50), min(self.x.to + 1, 51)):
             for y in range(max(self.y.from_, -50), min(self.y.to + 1, 51)):
                 for z in range(max(self.z.from_, -50), min(self.z.to + 1, 51)):
@@ -81,7 +81,7 @@ def solve(_input: str) -> int:
     on_cubes: set[Coordinate] = set()
     for s in steps:
         c: Coordinate
-        for c in iter(s):
+        for c in s.iter():
             if (
                 abs(c.x) > 50
                 or abs(c.y) > 50
