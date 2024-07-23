@@ -21,7 +21,7 @@ class Cube(NamedTuple):
     y: Range
     z: Range
 
-    def __iter__(self) -> Generator[Coordinate, None, None]:
+    def iter(self) -> Generator[Coordinate, None, None]:
         for x in range(self.x.from_, self.x.to + 1):
             for y in range(self.y.from_, self.y.to + 1):
                 for z in range(self.z.from_, self.z.to + 1):
@@ -85,7 +85,7 @@ def solve(_input: str) -> int:
     seen_cubes: set[Coordinate] = set()
     on_cubes = 0
     for s in reversed(steps):
-        for c in iter(s):
+        for c in s.iter():
             if c not in seen_cubes:
                 seen_cubes.add(c)
                 if s.on:
