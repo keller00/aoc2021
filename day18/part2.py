@@ -35,7 +35,7 @@ class Pair:
             current_pair = current_pair.parent
         return level
 
-    def __iter__(self) -> Generator[Pair, None, None]:
+    def __iter__(self) -> Generator[Pair]:
         if isinstance(self.lhs, Pair):
             yield from iter(self.lhs)
         yield self
