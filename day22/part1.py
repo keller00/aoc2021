@@ -21,7 +21,7 @@ class Cube(NamedTuple):
     y: Range
     z: Range
 
-    def iter(self) -> Generator[Coordinate, None, None]:
+    def iter(self) -> Generator[Coordinate]:
         for x in range(max(self.x.from_, -50), min(self.x.to + 1, 51)):
             for y in range(max(self.y.from_, -50), min(self.y.to + 1, 51)):
                 for z in range(max(self.z.from_, -50), min(self.z.to + 1, 51)):

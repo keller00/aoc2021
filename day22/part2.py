@@ -21,13 +21,13 @@ class Cube(NamedTuple):
     y: Range
     z: Range
 
-    def iter(self) -> Generator[Coordinate, None, None]:
+    def iter(self) -> Generator[Coordinate]:
         for x in range(self.x.from_, self.x.to + 1):
             for y in range(self.y.from_, self.y.to + 1):
                 for z in range(self.z.from_, self.z.to + 1):
                     yield Coordinate(x, y, z)
 
-    def corners(self) -> Generator[Coordinate, None, None]:
+    def corners(self) -> Generator[Coordinate]:
         for x in (self.x.from_, self.x.to):
             for y in (self.y.from_, self.y.to):
                 for z in (self.z.from_, self.z.to):
